@@ -2,7 +2,7 @@
 Final project for IT340, Fall 2026 
 
 ```
-Milestones/
+Milestones
 │
 ├── Milestone 1: Front-end completion
 │   └── November 10,2026     

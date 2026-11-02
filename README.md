@@ -1,5 +1,5 @@
-# IT340_Project
-Final project for IT340, Fall 2026 
+# Full Stack Project
+*Fall 2026 Final project - IT340*
 
 ```
 Milestones

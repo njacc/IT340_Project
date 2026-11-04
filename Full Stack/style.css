@@ -4,11 +4,13 @@ body {
     font-family: Arial, sans-serif;
 }
 
-header {
+.webTop {
     padding: 20px;
     position: fixed;
     width: 100%;
     background-color: orange;
     color: white;
+    text-align: center;
 }
+
 

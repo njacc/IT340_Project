@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="style.css">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
     <div class="webTop">
-        <h3>Register page</h3>
-        <h2>Graphic Scouts</h2>
-        <img src="GSlogo.png" width="5%">
-        <a href="Graphicscouts.html">Home</a>
-        <a href="Login.html">Login</a>
+        <div><img src="GSlogo.png" width="20%"></div>
+        <div>
+            <h2>Graphic Scouts</h2>
+        </div>
+        <div>
+            <h1>Register page</h1>
+        </div>
+        <div><a href="Login.html">Login</a></div>
+        <div><a href="Homepage.html">Home</a></div>
     </div>
+
+
+    <form class="info-box">
+        <label>Enter Email:</label>
+        <input type="email" id="email1" required><br><br>
+
+        <label>Confirm Email:</label>
+        <input type="email" id="email2" required><br><br>
+
+        <label>Enter Password: </label>
+        <input type="password" id="password1" required><br><br>
+
+        <label>Confirm Password: </label>
+        <input type="password" id="password2" required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
 </body>
 
 </html>

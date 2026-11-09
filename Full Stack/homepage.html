@@ -1,9 +1,9 @@
 <!-- Front-end -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="style.css">
-    <title>Graphic Scouts</title>
 </head>
 
 <body>
@@ -15,16 +15,167 @@
         </div>
 
         <div>
-            <form>
-                <label for="searchbar">Search</label>
-                <input type="text">
+            <form class="searchbar" onsubmit="searchProducts(event)">
+                <input type="text" id="searchbar" placeholder="Search">
             </form>
         </div>
 
-        <div><a href="Login.html">Login</a></div>
+        <div class="filter-dropdown">
 
-        <div><a href="Register.html">Register</a></div>
+            <button class="filter-button" onclick="toggleFilters()">Filter Graphic cards</button>
+
+            <div class="filter-content" id="filterContent">
+
+                <h3>Filter Graphics Cards</h3>
+
+                <label>Price</label>
+                <select id="priceFilter">
+                    <option value="all">All Prices</option>
+                    <option value="0-200">$0 - $200</option>
+                    <option value="200-400">$200 - $400</option>
+                    <option value="400-600">$400 - $600</option>
+                    <option value="600-1000">$600 - $1,000</option>
+                    <option value="1000-10000">$1,000+</option>
+                </select>
+
+                <label>Brand</label>
+                <select id="brandFilter">
+                    <option value="all">All Brands</option>
+                    <option value="NVIDIA">NVIDIA</option>
+                    <option value="AMD">AMD</option>
+                    <option value="Intel">Intel</option>
+                </select>
+
+                <label>VRAM</label>
+                <select id="vramFilter">
+                    <option value="all">All Ram</option>
+                    <option value="6GB">6GB</option>
+                    <option value="8GB">8GB</option>
+                    <option value="10GB">10GB</option>
+                </select>
+
+
+                <button onclick="applyFilters()">Apply Filters</button>
+
+                <button onclick="resetFilters()">Reset Filters</button>
+
+            </div>
+        </div>
+
+
+        <div><a href="login.html">Login</a></div>
+
+        <div><a href="register.html">Register</a></div>
     </div>
+
+    <div class="product-container">
+
+        <div class="product" data-price="279.99" data-brand="NVIDIA" data-vram="6">
+            <img src="Graphic1.png" alt="Graphics card">
+            <h3>NVIDIA GeForce RTX 3050 VENTUS 2X 6G OC 6GB GDDR6 PCI Express Gen 4</h3>
+            <p>$279.99</p>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="product" data-price="459.99" data-brand="AMD" data-vram="8">
+            <img src="Graphic2.png">
+            <h3>AMD GIGABYTE - Radeon RX 9060 XT GAMING OC 8GB GDDR6 PCI Express 5.0</h3>
+            <p>$459.99</p>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="product" data-price="307.49" data-brand="Intel" data-vram="10">
+            <img src="Graphic3.png">
+            <h3>Intel Arc B570 Challenger 10 GB DGGR6 OC PCIe 4.0</h3>
+            <p>$307.49</p>
+            <button>Add to Cart</button>
+        </div>
+
+    </div>
+
+    <p id="noResults" style="display: none; text-align: center;">
+        No graphics cards found!
+    </p>
+
+    <script>
+        function toggleFilters() {
+            document.getElementById("filterContent")
+                .classList.toggle("show");
+        }
+
+        function applyFilters() {
+
+            const price = document.getElementById("priceFilter").value;
+            const brand = document.getElementById("brandFilter").value;
+            const vram = document.getElementById("vramFilter").value;
+
+            const products = document.querySelectorAll(".product");
+
+            products.forEach(product => {
+
+                const productPrice = Number(product.dataset.price);
+                const productBrand = product.dataset.brand;
+                const productVram = product.dataset.vram;
+
+                let show = true;
+
+                if (price !== "all") {
+                    const [min, max] = price.split("-").map(Number);
+
+                    if (productPrice < min || productPrice > max) {
+                        show = false;
+                    }
+                }
+
+                if (brand !== "all" && productBrand !== brand) {
+                    show = false;
+                }
+
+                product.style.display = show ? "block" : "none";
+
+            });
+
+        }
+
+        function resetFilters() {
+
+            document.getElementById("priceFilter").value = "all";
+            document.getElementById("brandFilter").value = "all";
+            document.getElementById("vramFilter").value = "all";
+
+            document.querySelectorAll(".product").forEach(product => {
+                product.style.display = "block";
+            });
+
+        }
+
+        function searchProducts(event) {
+
+            event.preventDefault();
+
+            let searchbar = document.getElementById("searchbar")
+                .value.toLowerCase().trim();
+
+            let products = document.querySelectorAll(".product");
+
+            let foundProducts = 0;
+
+            products.forEach(function (product) {
+                let productName = product.innerText.toLowerCase();
+                if (productName.includes(searchbar)) {
+                    product.style.display = "block";
+                    foundProducts++;
+                } else {
+                    product.style.display = "none";
+                }
+            });
+
+            document.getElementById("noResults").style.display =
+                foundProducts === 0 ? "block" : "none";
+
+        }
+
+    </script>
 </body>
 
 </html>

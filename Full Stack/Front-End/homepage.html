@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- E-commerce website with product comparison, filtering, and price matching (sample data). -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts | Product Compare</title>
+    <meta
+      name="description"
+      content="Compare premium tech products side by side with sample vendor pricing, specs, and price-match intelligence."
+    />
+    <meta name="keywords" content="tech, comparison, marketplace, price match, specs, vendors" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%233659c9'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='28' font-weight='800' text-anchor='middle' fill='white'%3EGS%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CHANGE HERE: Icons use Font Awesome. Swap the fa-* class on a marked <i> to choose another icon. -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Same-folder stylesheet: keep this file next to style.css (see frontend/ folder). -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Main page: navigation links target the section IDs below. -->
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <!-- CHANGE HERE (LOGO): Replace GS with the final logo image/SVG or wordmark; style its size in .brand-mark. -->
+          <div class="brand-mark">GS</div>
+          <div>
+            <p class="eyebrow">Tech marketplace</p>
+            <h1>Graphic Scouts</h1>
+          </div>
+        </div>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="#catalog">Catalog</a>
+          <a href="#compare">Compare</a>
+          <a href="#pricing">Price Match</a>
+          <a href="login.html">Sign in</a>
+          <a href="register.html">Create account</a>
+        </nav>
+        <!-- CHANGE HERE (CART ICON): fa-bag-shopping is the standard storefront bag placeholder; swap its class when branding is ready. -->
+        <button class="cart-trigger" id="openCart" type="button" aria-label="Open shopping cart">
+          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+          Cart <span id="cart-count" class="cart-count">0</span>
+        </button>
+      </header>
+
+      <!-- Demo cart only: it calculates a subtotal locally and does not process payments. -->
+      <dialog class="cart-dialog" id="cartDialog" aria-labelledby="cartTitle">
+        <!-- The inner wrapper carries the padding so only a backdrop click (target === dialog) closes the cart. -->
+        <div class="cart-dialog-inner">
+          <div class="cart-heading">
+            <div>
+              <p class="eyebrow">Your selection</p>
+              <h2 id="cartTitle">Shopping cart</h2>
+            </div>
+            <!-- CHANGE HERE (CLOSE ICON): fa-xmark is the standard close control; swap its class if the icon set changes. -->
+            <button class="icon-btn" id="closeCart" type="button" aria-label="Close cart">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div id="cartItems" class="cart-items" aria-live="polite"></div>
+          <div class="cart-footer">
+            <div class="cart-total"><span>Subtotal</span><strong id="cartSubtotal">$0</strong></div>
+            <p class="cart-note">Shipping and taxes are calculated at checkout.</p>
+            <button class="primary-btn checkout-btn" id="checkoutButton" type="button">Place demo order</button>
+            <p class="checkout-message" id="checkoutMessage" role="status"></p>
+          </div>
+        </div>
+      </dialog>
+
+      <main>
+        <!-- Hero numbers and the featured product are filled in by renderHero() from the sample catalog. -->
+        <section class="hero panel">
+          <div class="hero-copy">
+            <span class="badge">Sample vendor data</span>
+            <h2>Smart side-by-side shopping for high-performance tech.</h2>
+            <p>
+              Filter the best options, compare specs, and spot the lowest price from
+              listed retailers in one clean workflow.
+            </p>
+            <div class="hero-metrics">
+              <div>
+                <strong id="heroProductCount">—</strong>
+                <span>Sample products</span>
+              </div>
+              <div>
+                <strong id="heroRetailerCount">—</strong>
+                <span>Retailers listed</span>
+              </div>
+              <div>
+                <strong id="heroAvgRating">—</strong>
+                <span>Avg. rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-showcase">
+            <div class="mini-card large">
+              <span class="mini-label">Best value (sample)</span>
+              <h3 id="heroBestName">—</h3>
+              <div class="mini-price-row">
+                <span class="price" id="heroBestPrice">—</span>
+                <span class="chip success" id="heroBestSavings">—</span>
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <span class="mini-label">Price match (sample)</span>
+              <p id="heroBestVendor">—</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Filter controls update the product grid; their IDs are used by attachFilterEvents(). -->
+        <section class="filters panel" id="catalog">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Search & filter</p>
+              <h3>Find the right tech</h3>
+            </div>
+            <div class="selected-indicator">
+              <span>Selected</span>
+              <strong id="selected-count">0</strong>
+            </div>
+          </div>
+
+          <div class="filter-grid">
+            <label class="field">
+              <span>Search</span>
+              <input id="searchInput" type="search" placeholder="Search by product or brand" />
+            </label>
+
+            <label class="field">
+              <span>Category</span>
+              <select id="categoryFilter">
+                <option value="All">All categories</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Monitor">Monitor</option>
+                <option value="Phone">Phone</option>
+                <option value="Audio">Audio</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Sort by</span>
+              <select id="sortFilter">
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="rating-desc">Rating</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Max price</span>
+              <input id="priceRange" type="range" min="400" max="2600" value="2600" />
+              <small id="priceLabel">Up to $2,600</small>
+            </label>
+          </div>
+        </section>
+
+        <!-- JavaScript fills these containers from the catalog/API data. -->
+        <section class="catalog section-block">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Marketplace</p>
+              <h3>Available products</h3>
+            </div>
+          </div>
+
+          <div id="productGrid" class="product-grid" aria-live="polite"></div>
+        </section>
+
+        <!-- Comparison and vendor pricing are based on the products selected in the catalog. -->
+        <section class="comparison panel section-block" id="compare">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Comparison</p>
+              <h3>Side-by-side product specs</h3>
+            </div>
+          </div>
+          <div id="comparisonTable" class="comparison-table-wrap"></div>
+        </section>
+
+        <section class="price-panel panel section-block" id="pricing">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Price matching</p>
+              <h3>Vendor price intelligence</h3>
+            </div>
+          </div>
+          <div id="priceMatchGrid" class="price-match-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Product catalog, filters, comparison, and shopping cart behavior -->
+    <script>
+      // TO BE CHANGED HERE: Replace each product image emoji below with its custom graphic asset/path.
+      // Icon map: fa-star = rating; fa-bag-shopping = cart/add; fa-tag = vendor; fa-truck-fast = shipping; fa-box = stock.
+      // Change those fa-* classes in the product and price-match templates to use different Font Awesome icons.
+      // Sample products and vendor offers used while useMockData is true; these are not live prices.
+      // Each product's displayed price is its lowest vendor price (see getBestPrice), so the card,
+      // comparison table, filters, and cart always agree. The `price` field is kept for the future API shape.
+      const catalog = [
+        {
+          id: 1,
+          name: 'ASUS ROG Zephyrus G14',
+          brand: 'ASUS',
+          category: 'Laptop',
+          price: 1399,
+          rating: 4.8,
+          badge: 'Best value',
+          image: '🎮',
+          specs: {
+            CPU: 'AMD Ryzen 9 7940HS',
+            RAM: '32GB LPDDR5',
+            Storage: '1TB SSD',
+            Display: '14" QHD 120Hz',
+            Battery: '73Wh',
+            Weight: '3.5 lbs'
+          },
+          vendors: [
+            { name: 'Best Buy', price: 1449, shipping: 'Free', stock: 'In stock' },
+            { name: 'Newegg', price: 1399, shipping: 'Free', stock: 'In stock' },
+            { name: 'Amazon', price: 1499, shipping: '$12', stock: 'Limited' }
+          ]
+        },
+        {
+          id: 2,
+          name: 'Dell XPS 13 Plus',
+          brand: 'Dell',
+          category: 'Laptop',
+          price: 1599,
+          rating: 4.7,
+          badge: 'Premium pick',
+          image: '💻',
+          specs: {
+            CPU: 'Intel Core i7-1360P',
+            RAM: '16GB LPDDR5',
+            Storage: '512GB SSD',
+            Display: '13.4" 3.5K OLED',
+            Battery: '69Wh',
+            Weight: '2.7 lbs'
+          },
+          vendors: [
+            { name: 'Dell Store', price: 1599, shipping: 'Free', stock: 'In stock' },
+            { name: 'Amazon', price: 1699, shipping: 'Free', stock: 'In stock' },
+            { name: 'Best Buy', price: 1749, shipping: '$5', stock: 'In stock' }
+          ]
+        },
+        {
+          id: 3,
+          name: 'LG UltraFine 27"',
+          brand: 'LG',
+          category: 'Monitor',
+          price: 749,
+          rating: 4.6,
+          badge: 'Editor pick',
+          image: '🖥️',
+          specs: {
+            CPU: 'N/A',
+            RAM: 'N/A',
+            Storage: 'N/A',
+            Display: '27" 4K IPS',
+            Battery: 'N/A',
+            Weight: '15.8 lbs'
+          },
+          vendors: [
+            { name: 'LG Direct', price: 799, shipping: 'Free', stock: 'In stock' },
+            { name: 'B&H', price: 749, shipping: '$15', stock: 'In stock' },
+            { name: 'Amazon', price: 829, shipping: 'Free', stock: 'Limited' }
+          ]
+        },
+        {
+          id: 4,
+          name: 'Apple iPhone 15 Pro',
+          brand: 'Apple',
+          category: 'Phone',
+          price: 999,
+          rating: 4.9,
+          badge: 'Top seller',
+          image: '📱',
+          specs: {
+            CPU: 'A17 Pro',
+            RAM: '8GB',
+            Storage: '256GB',
+            Display: '6.1" OLED',
+            Battery: '3274mAh',
+            Weight: '6.6 oz'
+          },
+          vendors: [
+            { name: 'Apple', price: 999, shipping: 'Free', stock: 'In stock' },
+            { name: 'Best Buy', price: 1049, shipping: 'Free', stock: 'In stock' },
+            { name: 'Amazon', price: 1099, shipping: '$7', stock: 'In stock' }
+          ]
+        },
+        {
+          id: 5,
+          name: 'Sony WH-1000XM5',
+          brand: 'Sony',
+          category: 'Audio',
+          price: 399,
+          rating: 4.8,
+          badge: 'Noise canceling',
+          image: '🎧',
+          specs: {
+            CPU: 'N/A',
+            RAM: 'N/A',
+            Storage: 'N/A',
+            Display: 'N/A',
+            Battery: '30 hours',
+            Weight: '8.8 oz'
+          },
+          vendors: [
+            { name: 'Sony', price: 399, shipping: 'Free', stock: 'In stock' },
+            { name: 'Amazon', price: 429, shipping: 'Free', stock: 'In stock' },
+            { name: 'Best Buy', price: 449, shipping: '$5', stock: 'Limited' }
+          ]
+        }
+      ];
+
+      // Shared UI state: filters, compared product IDs, and cart quantities live here.
+      const state = {
+        search: '',
+        category: 'All',
+        sort: 'price-asc',
+        maxPrice: 2600,
+        selected: [1, 2, 3],
+        cart: []
+      };
+
+      // Security-first setup for a future real API integration.
+      // Keep secrets on the backend and never hard-code tokens, API keys, or vendor credentials here.
+      const appConfig = {
+        apiBaseUrl: '',
+        useMockData: true,
+        allowCredentials: false
+      };
+
+      // API boundary for future integration. Keep vendor credentials and private keys on the server.
+      // Caller-supplied headers are merged with the defaults instead of replacing them.
+      async function safeFetchJSON(url, options = {}) {
+        const { headers = {}, ...rest } = options;
+        const response = await fetch(url, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: appConfig.allowCredentials ? 'include' : 'same-origin',
+          cache: 'no-store',
+          ...rest,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            ...headers
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        return response.json();
+      }
+
+      // Simulated API for fetching product data right now.
+      // Replace this with a real backend endpoint later, such as /api/products.
+      const productApi = {
+        async getProducts() {
+          if (!appConfig.useMockData) {
+            return safeFetchJSON(`${appConfig.apiBaseUrl}/api/products`);
+          }
+
+          return new Promise((resolve) => {
+            setTimeout(() => resolve(catalog), 250);
+          });
+        }
+      };
+
+      const formatPrice = (value) =>
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0
+        }).format(value);
+
+      // Escape text before it goes into an innerHTML template (required once real API data is used).
+      const escapeHTML = (value) =>
+        String(value).replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[char]));
+
+      function getBestVendor(product) {
+        return product.vendors.reduce((best, vendor) => (vendor.price < best.price ? vendor : best));
+      }
+
+      // Single source of truth for the price shown, filtered, sorted, and charged.
+      const getBestPrice = (product) => getBestVendor(product).price;
+
+      // Fill the hero stats and featured card from the sample catalog instead of hard-coded numbers.
+      function renderHero() {
+        const retailers = new Set(catalog.flatMap((product) => product.vendors.map((vendor) => vendor.name)));
+        const averageRating = catalog.reduce((total, product) => total + product.rating, 0) / catalog.length;
+        const featured = catalog.find((product) => product.badge === 'Best value') || catalog[0];
+        const featuredBest = getBestVendor(featured);
+        const highestPrice = Math.max(...featured.vendors.map((vendor) => vendor.price));
+        const savingsPercent = Math.round(((highestPrice - featuredBest.price) / highestPrice) * 100);
+
+        document.getElementById('heroProductCount').textContent = catalog.length;
+        document.getElementById('heroRetailerCount').textContent = retailers.size;
+        document.getElementById('heroAvgRating').textContent = `${averageRating.toFixed(1)}/5`;
+        document.getElementById('heroBestName').textContent = featured.name;
+        document.getElementById('heroBestPrice').textContent = formatPrice(featuredBest.price);
+        document.getElementById('heroBestSavings').textContent = `Save ${savingsPercent}%`;
+        document.getElementById('heroBestVendor').textContent = `Lowest sample price at ${featuredBest.name}`;
+      }
+
+      // Cart actions update local demo state; checkout does not collect payment details.
+      function addToCart(productId) {
+        const existingItem = state.cart.find((item) => item.productId === productId);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          state.cart.push({ productId, quantity: 1 });
+        }
+        document.getElementById('checkoutMessage').textContent = '';
+        renderCart();
+      }
+
+      function updateCartQuantity(productId, change) {
+        const item = state.cart.find((cartItem) => cartItem.productId === productId);
+        if (!item) return;
+        item.quantity += change;
+        if (item.quantity <= 0) {
+          state.cart = state.cart.filter((cartItem) => cartItem.productId !== productId);
+        }
+        renderCart();
+      }
+
+      // Build cart rows with DOM text nodes so product values are not interpreted as HTML.
+      function renderCart() {
+        const cartItems = document.getElementById('cartItems');
+        const itemCount = state.cart.reduce((total, item) => total + item.quantity, 0);
+        const subtotal = state.cart.reduce((total, item) => {
+          const product = catalog.find((entry) => entry.id === item.productId);
+          return total + (product ? getBestPrice(product) * item.quantity : 0);
+        }, 0);
+
+        document.getElementById('cart-count').textContent = itemCount;
+        document.getElementById('cartSubtotal').textContent = formatPrice(subtotal);
+        document.getElementById('checkoutButton').disabled = itemCount === 0;
+        cartItems.replaceChildren();
+
+        if (!state.cart.length) {
+          const emptyMessage = document.createElement('p');
+          emptyMessage.className = 'cart-empty';
+          emptyMessage.textContent = 'Your cart is empty. Add a product to get started.';
+          cartItems.append(emptyMessage);
+          return;
+        }
+
+        state.cart.forEach((item) => {
+          const product = catalog.find((entry) => entry.id === item.productId);
+          if (!product) return;
+
+          const row = document.createElement('article');
+          row.className = 'cart-item';
+          const details = document.createElement('div');
+          details.className = 'cart-item-details';
+          const title = document.createElement('strong');
+          title.textContent = product.name;
+          const price = document.createElement('span');
+          price.textContent = `${formatPrice(getBestPrice(product))} each`;
+          details.append(title, price);
+
+          const controls = document.createElement('div');
+          controls.className = 'quantity-controls';
+          const decrease = document.createElement('button');
+          decrease.type = 'button';
+          decrease.className = 'quantity-btn';
+          decrease.textContent = '−';
+          decrease.setAttribute('aria-label', `Decrease ${product.name} quantity`);
+          decrease.addEventListener('click', () => updateCartQuantity(product.id, -1));
+          const quantity = document.createElement('span');
+          quantity.textContent = item.quantity;
+          const increase = document.createElement('button');
+          increase.type = 'button';
+          increase.className = 'quantity-btn';
+          increase.textContent = '+';
+          increase.setAttribute('aria-label', `Increase ${product.name} quantity`);
+          increase.addEventListener('click', () => updateCartQuantity(product.id, 1));
+          controls.append(decrease, quantity, increase);
+          row.append(details, controls);
+          cartItems.append(row);
+        });
+      }
+
+      function attachCartEvents() {
+        const cartDialog = document.getElementById('cartDialog');
+        document.getElementById('openCart').addEventListener('click', () => cartDialog.showModal());
+        document.getElementById('closeCart').addEventListener('click', () => cartDialog.close());
+        // Padding lives on .cart-dialog-inner, so a click whose target is the dialog itself is a backdrop click.
+        cartDialog.addEventListener('click', (event) => {
+          if (event.target === cartDialog) cartDialog.close();
+        });
+        document.getElementById('checkoutButton').addEventListener('click', () => {
+          if (!state.cart.length) return;
+          state.cart = [];
+          document.getElementById('checkoutMessage').textContent = 'Demo order placed. No payment was collected.';
+          renderCart();
+        });
+      }
+
+      // Re-rendering replaces product-card markup, so listeners are attached after each render.
+      // Catalog values are escaped with escapeHTML() before being placed into the template.
+      // CHANGE HERE: The fa-star class in this product template controls the rating icon.
+      function renderProducts() {
+        const grid = document.getElementById('productGrid');
+        const filtered = getFilteredProducts();
+
+        document.getElementById('selected-count').textContent = state.selected.length;
+
+        if (!filtered.length) {
+          grid.innerHTML = '<div class="empty-state">No products match your filters.</div>';
+          return;
+        }
+
+        grid.innerHTML = filtered
+          .map((product) => {
+            const bestVendor = getBestVendor(product);
+            const isSelected = state.selected.includes(product.id);
+
+            return `
+              <article class="product-card ${isSelected ? 'selected' : ''}">
+                <div class="product-topline">
+                  <span class="product-emoji" aria-hidden="true">${escapeHTML(product.image)}</span>
+                  <span class="chip">${escapeHTML(product.badge)}</span>
+                </div>
+
+                <div class="product-meta">
+                  <span>${escapeHTML(product.brand)}</span>
+                  <span><i class="fa-solid fa-star" aria-hidden="true"></i> ${escapeHTML(product.rating)}</span>
+                </div>
+
+                <h4>${escapeHTML(product.name)}</h4>
+                <p class="product-category">${escapeHTML(product.category)}</p>
+
+                <div class="price-row">
+                  <strong>${formatPrice(bestVendor.price)}</strong>
+                  <small>via ${escapeHTML(bestVendor.name)}</small>
+                </div>
+
+                <ul class="spec-list">
+                  <li><span>CPU</span><strong>${escapeHTML(product.specs.CPU)}</strong></li>
+                  <li><span>Display</span><strong>${escapeHTML(product.specs.Display)}</strong></li>
+                  <li><span>Battery</span><strong>${escapeHTML(product.specs.Battery)}</strong></li>
+                </ul>
+
+                <div class="card-actions">
+                  <button class="secondary-btn compare-toggle" data-id="${product.id}" type="button">
+                    ${isSelected ? 'Remove' : 'Compare'}
+                  </button>
+                  <button class="primary-btn small-btn add-to-cart" data-id="${product.id}" type="button">
+                    <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Add to cart
+                  </button>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+
+        document.querySelectorAll('.compare-toggle').forEach((button) => {
+          button.addEventListener('click', () => toggleProductSelection(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('.add-to-cart').forEach((button) => {
+          button.addEventListener('click', () => addToCart(Number(button.dataset.id)));
+        });
+      }
+
+      // Apply search, category, price, and sort choices to the current catalog data.
+      function getFilteredProducts() {
+        return catalog
+          .filter((product) => {
+            const matchesSearch = `${product.name} ${product.brand}`
+              .toLowerCase()
+              .includes(state.search.toLowerCase());
+            const matchesCategory = state.category === 'All' || product.category === state.category;
+            const matchesPrice = getBestPrice(product) <= state.maxPrice;
+            return matchesSearch && matchesCategory && matchesPrice;
+          })
+          .sort((a, b) => {
+            if (state.sort === 'rating-desc') return b.rating - a.rating;
+            if (state.sort === 'price-desc') return getBestPrice(b) - getBestPrice(a);
+            return getBestPrice(a) - getBestPrice(b);
+          });
+      }
+
+      function toggleProductSelection(productId) {
+        if (state.selected.includes(productId)) {
+          state.selected = state.selected.filter((id) => id !== productId);
+        } else {
+          if (state.selected.length >= 3) {
+            state.selected.shift();
+          }
+          state.selected.push(productId);
+        }
+
+        renderProducts();
+        renderComparisonTable();
+        renderPriceMatches();
+      }
+
+      // Render a shared spec matrix so differences across selected products are easy to scan.
+      function renderComparisonTable() {
+        const comparisonContainer = document.getElementById('comparisonTable');
+        const selectedProducts = catalog.filter((product) => state.selected.includes(product.id));
+
+        if (!selectedProducts.length) {
+          comparisonContainer.innerHTML = '<div class="empty-state">Select at least one product to compare.</div>';
+          return;
+        }
+
+        const specKeys = [...new Set(selectedProducts.flatMap((product) => Object.keys(product.specs)))];
+
+        comparisonContainer.innerHTML = `
+          <div class="comparison-table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  ${selectedProducts
+                    .map(
+                      (product) => `
+                        <th>
+                          <div class="compare-header">
+                            <span class="product-emoji small" aria-hidden="true">${escapeHTML(product.image)}</span>
+                            <div>
+                              <strong>${escapeHTML(product.name)}</strong>
+                              <small>${formatPrice(getBestPrice(product))}</small>
+                            </div>
+                          </div>
+                        </th>
+                      `
+                    )
+                    .join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${specKeys
+                  .map(
+                    (key) => `
+                      <tr>
+                        <td>${escapeHTML(key)}</td>
+                        ${selectedProducts
+                          .map(
+                            (product) => `<td>${escapeHTML(product.specs[key] || '—')}</td>`
+                          )
+                          .join('')}
+                      </tr>
+                    `
+                  )
+                  .join('')}
+                <tr>
+                  <td>Best vendor</td>
+                  ${selectedProducts
+                    .map((product) => `<td>${escapeHTML(getBestVendor(product).name)}</td>`)
+                    .join('')}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      // Select the lowest listed vendor offer for each compared product.
+      // CHANGE HERE: These fa-* classes control the vendor, shipping, and stock icons in price-match rows.
+      function renderPriceMatches() {
+        const priceMatchGrid = document.getElementById('priceMatchGrid');
+        const selectedProducts = catalog.filter((product) => state.selected.includes(product.id));
+
+        if (!selectedProducts.length) {
+          priceMatchGrid.innerHTML = '<div class="empty-state">Price match data appears when products are selected.</div>';
+          return;
+        }
+
+        priceMatchGrid.innerHTML = selectedProducts
+          .map((product) => {
+            const bestVendor = getBestVendor(product);
+            const retailerSummary = product.vendors
+              .map((vendor) => `${escapeHTML(vendor.name)}: ${formatPrice(vendor.price)}`)
+              .join(' • ');
+
+            return `
+              <article class="price-card">
+                <div class="price-header">
+                  <div>
+                    <span class="mini-label">${escapeHTML(product.category)}</span>
+                    <h4>${escapeHTML(product.name)}</h4>
+                  </div>
+                  <span class="chip success">Lowest ${formatPrice(bestVendor.price)}</span>
+                </div>
+                <p>${retailerSummary}</p>
+                <div class="match-meta">
+                  <span><i class="fa-solid fa-tag" aria-hidden="true"></i> ${escapeHTML(bestVendor.name)}</span>
+                  <span><i class="fa-solid fa-truck-fast" aria-hidden="true"></i> ${escapeHTML(bestVendor.shipping)}</span>
+                  <span><i class="fa-solid fa-box" aria-hidden="true"></i> ${escapeHTML(bestVendor.stock)}</span>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+      }
+
+      function attachFilterEvents() {
+        document.getElementById('searchInput').addEventListener('input', (event) => {
+          state.search = event.target.value;
+          renderProducts();
+        });
+
+        document.getElementById('categoryFilter').addEventListener('change', (event) => {
+          state.category = event.target.value;
+          renderProducts();
+        });
+
+        document.getElementById('sortFilter').addEventListener('change', (event) => {
+          state.sort = event.target.value;
+          renderProducts();
+        });
+
+        document.getElementById('priceRange').addEventListener('input', (event) => {
+          state.maxPrice = Number(event.target.value);
+          document.getElementById('priceLabel').textContent = `Up to ${formatPrice(state.maxPrice)}`;
+          renderProducts();
+        });
+      }
+
+      // The UI currently renders the local catalog; wire returned API products into it before enabling live data.
+      async function init() {
+        attachFilterEvents();
+        attachCartEvents();
+        await productApi.getProducts();
+        renderHero();
+        renderProducts();
+        renderComparisonTable();
+        renderPriceMatches();
+        renderCart();
+      }
+
+      init();
+    </script>
+  </body>
+</html>

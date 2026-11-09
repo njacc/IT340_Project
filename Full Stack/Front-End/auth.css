@@ -1,0 +1,335 @@
+/* Graphic Scouts sign-in and register page styles.
+   . */
+:root {
+  --ink: #17283f;
+  --muted: #64748b;
+  --indigo: #3659c9;
+  --indigo-light: #6d8cf0;
+  --coral: #de554b;
+  --coral-light: #ef7455;
+  --green: #16835d;
+  --line: rgba(35, 57, 91, 0.12);
+  --shadow: 0 18px 48px rgba(34, 55, 91, 0.1);
+  --motion: 220ms ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* Page background matches the store. */
+.auth-page {
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 40px;
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  background:
+    linear-gradient(135deg, rgba(214, 231, 255, 0.62), transparent 42%),
+    linear-gradient(315deg, rgba(255, 225, 214, 0.48), transparent 38%),
+    linear-gradient(180deg, #f8faff 0%, #f1f5fb 52%, #f8fafc 100%);
+}
+
+/* Slim top bar with the logo and a link back to the store. */
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(1100px, calc(100% - 32px));
+  margin: 20px auto 16px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(54, 89, 201, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 12px 36px rgba(34, 55, 91, 0.08);
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.auth-brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+  border-radius: 12px;
+  box-shadow: 0 10px 18px rgba(54, 89, 201, 0.22);
+}
+
+.auth-home-link {
+  color: var(--indigo);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-home-link:hover {
+  text-decoration: underline;
+}
+
+.auth-brand:focus-visible,
+.auth-home-link:focus-visible,
+.auth-switch a:focus-visible,
+.password-toggle:focus-visible,
+.auth-submit:focus-visible {
+  outline: 3px solid rgba(54, 89, 201, 0.3);
+  outline-offset: 3px;
+}
+
+/* Two columns: blue intro panel on the left, form on the right. */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(35, 57, 91, 0.1);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.auth-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 40px;
+  color: #f7fbff;
+  background: linear-gradient(115deg, #1c2b57 0%, #2c4b9d 58%, #3b74bc 100%);
+}
+
+.auth-aside .auth-brand {
+  color: #fff;
+}
+
+.auth-aside .auth-brand-mark {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
+}
+
+.auth-kicker {
+  margin: 0 0 6px;
+  color: var(--indigo);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.auth-aside .auth-kicker {
+  color: #a9d8ff;
+}
+
+.auth-aside-copy h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  line-height: 1.1;
+}
+
+.auth-aside-copy p:last-child {
+  max-width: 420px;
+  margin: 0;
+  color: #d3e2f5;
+  line-height: 1.6;
+}
+
+.auth-aside-footnote {
+  margin: 0;
+  color: #a9d8ff;
+  font-size: 0.85rem;
+}
+
+/* Form side. */
+.auth-main {
+  display: grid;
+  place-items: center;
+  padding: 40px 32px;
+}
+
+.auth-form-wrap {
+  width: min(420px, 100%);
+}
+
+.auth-form-wrap h2 {
+  margin: 4px 0 8px;
+  font-size: 1.8rem;
+}
+
+.auth-description {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 18px;
+}
+
+.auth-field {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 12px 14px;
+  color: var(--ink);
+  font-weight: 400;
+  background: #fff;
+  border: 1px solid rgba(35, 57, 91, 0.16);
+  border-radius: 12px;
+}
+
+.auth-field input:focus {
+  border-color: var(--indigo);
+  outline: 3px solid rgba(54, 89, 201, 0.16);
+}
+
+/* Password input with the Show/Hide button sitting inside its right edge. */
+.password-wrap {
+  position: relative;
+  display: block;
+}
+
+.password-wrap input {
+  padding-right: 76px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  padding: 6px 10px;
+  color: var(--indigo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  transform: translateY(-50%);
+  transition: background var(--motion);
+}
+
+.password-toggle:hover {
+  background: #eaf0ff;
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.check-field input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--indigo);
+}
+
+.auth-submit {
+  padding: 13px 18px;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(120deg, var(--coral-light), var(--coral));
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(222, 79, 73, 0.2);
+  transition: transform var(--motion), box-shadow var(--motion);
+}
+
+.auth-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(222, 79, 73, 0.24);
+}
+
+/* Message line under the button (errors and the demo confirmation). */
+.auth-notice {
+  min-height: 1.25rem;
+  margin: 0;
+  color: var(--indigo);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-demo-note {
+  margin: 22px 0 0;
+  padding: 12px 14px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  background: #f5f7fc;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.auth-switch {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.auth-switch a {
+  color: var(--indigo);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* Tablet and phone: stack the intro panel above the form. */
+@media (max-width: 860px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-aside {
+    gap: 24px;
+    padding: 28px;
+  }
+
+  .auth-main {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-topbar {
+    padding: 12px 14px;
+  }
+}
+
+/* Honor reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

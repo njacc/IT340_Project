@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create a Graphic Scouts account." />
+    <title>Create Account | Graphic Scouts</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%233659c9'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='28' font-weight='800' text-anchor='middle' fill='white'%3EGS%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Same-folder assets keep links working when these pages are hosted together on GitHub Pages. -->
+    <link rel="stylesheet" href="auth.css" />
+    <script src="auth.js" defer></script>
+  </head>
+  <body class="auth-page">
+    <header class="auth-topbar">
+      <a class="auth-brand" href="homepage.html" aria-label="Graphic Scouts home">
+        <span class="auth-brand-mark" aria-hidden="true">GS</span>
+        <span>Graphic Scouts</span>
+      </a>
+      <a class="auth-home-link" href="homepage.html">Back to store</a>
+    </header>
+
+    <main class="auth-layout">
+      <aside class="auth-aside">
+        <div class="auth-brand">
+          <span class="auth-brand-mark" aria-hidden="true">GS</span>
+          <span>Shop with a sharper view.</span>
+        </div>
+        <div class="auth-aside-copy">
+          <p class="auth-kicker">Join Graphic Scouts</p>
+          <h1>Make every comparison count.</h1>
+          <p>Save your picks and keep your shopping research close at hand.</p>
+        </div>
+        <p class="auth-aside-footnote">A better way to choose your next upgrade</p>
+      </aside>
+
+      <section class="auth-main" aria-labelledby="registerTitle">
+        <div class="auth-form-wrap">
+          <p class="auth-kicker">New account</p>
+          <h2 id="registerTitle">Create your account</h2>
+          <p class="auth-description">A few details to get your account started.</p>
+
+          <!-- auth.js listens to registerForm and checks that both password fields match.
+               No method/action yet: nothing is submitted until a secure backend endpoint exists. -->
+          <form class="auth-form" id="registerForm">
+            <label class="auth-field" for="registerName">
+              Full name
+              <input id="registerName" name="name" type="text" autocomplete="name" required />
+            </label>
+
+            <label class="auth-field" for="registerEmail">
+              Email address
+              <input id="registerEmail" name="email" type="email" autocomplete="email" required />
+            </label>
+
+            <label class="auth-field" for="registerPassword">
+              Password
+              <span class="password-wrap">
+                <input id="registerPassword" name="password" type="password" minlength="10" autocomplete="new-password" required />
+                <!-- data-password-toggle links this button to the password input ID. -->
+                <button class="password-toggle" type="button" data-password-toggle="registerPassword" aria-pressed="false">Show</button>
+              </span>
+            </label>
+
+            <label class="auth-field" for="confirmPassword">
+              Confirm password
+              <span class="password-wrap">
+                <input id="confirmPassword" name="confirmPassword" type="password" minlength="10" autocomplete="new-password" required />
+                <button class="password-toggle" type="button" data-password-toggle="confirmPassword" aria-pressed="false">Show</button>
+              </span>
+            </label>
+
+            <label class="check-field" for="acceptTerms">
+              <input id="acceptTerms" name="acceptTerms" type="checkbox" required />
+              I agree to the terms and privacy policy.
+            </label>
+
+            <button class="auth-submit" type="submit">Create account</button>
+            <p class="auth-notice" id="registerNotice" role="status" aria-live="polite"></p>
+          </form>
+
+          <!-- No account is created until a secure server endpoint is connected. -->
+          <p class="auth-demo-note">Demo page only. Account details are not sent or saved. Connect a secure backend before accepting real registrations.</p>
+          <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -31,6 +31,7 @@ The user does something --> the code changes state, then calls the matching func
 
 You can compare up to 3 products, with the next selection of product dropping the oldest option. 
 
+
 *Verbose explanation*
 
 The script run down is: 

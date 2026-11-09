@@ -2,30 +2,32 @@
 
 **E-commerce website overview** 
 
-Graphic scouts front-end is built with HTML, CSS, JavaScript. So far, it uses no framework and build step so GitHub Pages will serve as it folder, with nginx begin used to host. 
+Graphic scouts front-end is built with HTML, CSS, JavaScript. For now the project will be hosted on GitHub Pages then moved to nginx. 
 
-All vendors and products are sample data, backend as not been connect as of yet. 
+All vendors and products are sample data, backend has not been connected as of yet. 
 
 Milestone 1: Home, login, and register pages 
 
 **File map** 
 
-| Role | Title |
+| File | What it does |
 |---|---|
 |home page.html|Holds the store logic|
-|style.css|stylization of the page |
+|style.css|stylization of the home page|
 |login.html|Sign-in form|
 |register.html|Creating account|
-|auth.css|Style for the authentication page|
-|auth.js|Behavior share by the auth page|  
+|auth.css|Style for the login/register page|
+|auth.js|Behavior share by login and register page|  
 
 ---
 
 **Basic rundown**
 
-Currently the page is filled with sample data. The comparison table and the price cards start empty (productGrid, comparisonTable, priceMatchGrid)
+Currently the page is filled with sample data. The comparison table and the price cards start empty (productGrid, comparisonTable, priceMatchGrid) and then the script fills in them in.
 
-The user does something --> the code changes state, then calls the matching function. You can compare up to 3 products, with the next selection of product dropping the oldest option. 
+The user does something --> the code changes state, then calls the matching function. 
+
+You can compare up to 3 products, with the next selection of product dropping the oldest option. 
 
 (Verbose explanation)
 The script run down is: 
@@ -56,6 +58,17 @@ The login and register pages are demo forms. So far nothing is sent, saved or ch
 • The password-mismatch message clears when the user edits either password field.
 • The forms have no method or action yet, so nothing can be sent until a secure backend exists.
 
+--- 
+**AI-usage** 
+
+Tools such as visual studio built-in AI were used to help create some of the code for the front-end
+
+--- 
+**Next Steps** 
+
+Connect the Backend
+Make the login and register forms call the backend with fetch.
+Set up the UFW firewall rules and the VLAN between the three VMs (front end, back end, database).
 
 
 

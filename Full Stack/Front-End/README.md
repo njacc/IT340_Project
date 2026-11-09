@@ -1,6 +1,7 @@
 # FRONT-END
 
 **E-commerce website overview** 
+---
 
 Graphic scouts front-end is built with HTML, CSS, JavaScript. For now the project will be hosted on GitHub Pages then moved to nginx. 
 
@@ -22,6 +23,7 @@ Milestone 1: Home, login, and register pages
 ---
 
 **Basic rundown**
+---
 
 Currently the page is filled with sample data. The comparison table and the price cards start empty (productGrid, comparisonTable, priceMatchGrid) and then the script fills in them in.
 
@@ -43,6 +45,7 @@ The script run down is:
 
 ---
 **Style.css** 
+---
 
 The styles follow the order of the page, and the colors are set once at the top.
 
@@ -52,6 +55,7 @@ The styles follow the order of the page, and the colors are set once at the top.
 
 --- 
 **Auth pages** 
+---
 
 The login and register pages are demo forms. So far nothing is sent, saved or checked.
 
@@ -63,11 +67,13 @@ The login and register pages are demo forms. So far nothing is sent, saved or ch
 
 --- 
 **AI-usage** 
+---
 
 Tools such as visual studio built-in AI were used to help create some of the code for the front-end
 
 --- 
 **Next Steps** 
+---
 
 Connect the Backend
 Make the login and register forms call the backend with fetch.

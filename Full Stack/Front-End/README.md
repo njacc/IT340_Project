@@ -29,7 +29,8 @@ The user does something --> the code changes state, then calls the matching func
 
 You can compare up to 3 products, with the next selection of product dropping the oldest option. 
 
-(Verbose explanation)
+*Verbose explanation*
+
 The script run down is: 
 
 1. catalog: a list of 5 sample products. Each has a name, brand, category, rating, specs and a list of vendors (store, price, shipping, stock).
@@ -42,6 +43,7 @@ The script run down is:
 
 ---
 **Style.css** 
+
 The styles follow the order of the page, and the colors are set once at the top.
 
 • Color settings in :root: colors, shadow and animation speed. 
@@ -50,6 +52,7 @@ The styles follow the order of the page, and the colors are set once at the top.
 
 --- 
 **Auth pages** 
+
 The login and register pages are demo forms. So far nothing is sent, saved or checked.
 
 • login.html and register.html use the browser's built-in checks: required fields, a valid email, and a password of at least 10 characters on register.

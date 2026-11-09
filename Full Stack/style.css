@@ -1,0 +1,189 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+/* Website top*/
+.webTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color:royalblue;
+    color: white;
+    padding: 15px;
+}
+
+.webTop img {
+    width: 100px;
+}
+
+.webTop a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+
+/* Products style*/
+.products {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.products h1 {
+    font-size: 32px;
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.product {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px black;
+}
+
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product h3 {
+    margin-top: 15px;
+}
+
+.product p {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.product button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+/* Search bar and Filter*/
+.search-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.searchbar {
+    display: flex;
+    gap: 5px;
+}
+
+.searchbar input {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+/* Filter Stuff*/
+.filter-button {
+    padding: 10px 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filter-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 100;
+    right: 0;
+    top: 100%;
+}
+
+.filter-content.show {
+    display: block;
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-content label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.filter-content select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.filter-content button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Login and Register info box set*/
+.info-box {
+    background-color: white;
+    width: 350px;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px black;
+    text-align: left;
+}
+
+.info-box label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.info-box input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.info-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -30,7 +30,7 @@ Currently the page is filled with sample data. The comparison table and the pric
 The user does something --> the code changes state, then calls the matching function. 
 
 You can compare up to 3 products, with the next selection of product dropping the oldest option. 
-
+---
 
 *Verbose explanation*
 

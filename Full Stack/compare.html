@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="webTop">
+
+        <div><a href="homepage.html">
+            <img src="GSlogo.png" width="20%">
+        </a></div>
+
+        <div>
+            <h2>Graphic Scouts</h2>
+        </div>
+
+        <div><h1>Compare Graphics Cards</h1></div>
+
+        <div><a href="login.html">Login</a></div>
+
+        <div><a href="register.html">Register</a></div>
+    </div>
+
+    <div class="dropdown-container">
+
+        <div>
+            <h3>Select First Graphics Card</h3>
+
+            <select id="product1" onchange="displayProducts()">
+                <option value="">Choose a Graphics Card</option>
+                <option value="0">NVIDIA GeForce RTX 3050</option>
+                <option value="1">AMD Radeon RX 9060 XT</option>
+                <option value="2">Intel Arc B570</option>
+            </select>
+        </div>
+
+        <div>
+            <h3>Select Second Graphics Card</h3>
+
+            <select id="product2" onchange="displayProducts()">
+                <option value="">Choose a Graphics Card</option>
+                <option value="0">NVIDIA GeForce RTX 3050</option>
+                <option value="1">AMD Radeon RX 9060 XT</option>
+                <option value="2">Intel Arc B570</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="compare-container">
+
+        <div class="compare-card" id="card1">
+            <p>Select a graphics card above</p>
+        </div>
+
+        <div class="compare-card" id="card2">
+            <p>Select a graphics card above</p>
+        </div>
+
+    </div>
+
+    <script>
+        
+const products = [
+
+    {
+        name: "NVIDIA GeForce RTX 3050 VENTUS 2X 6G OC",
+        image: "Graphic1.png",
+        price: 279.99,
+        brand: "NVIDIA",
+        vram: "6GB"
+    },
+
+    {
+        name: "AMD GIGABYTE Radeon RX 9060 XT GAMING OC",
+        image: "Graphic2.png",
+        price: 459.99,
+        brand: "AMD",
+        vram: "8GB"
+    },
+
+    {
+        name: "Intel Arc B570 Challenger",
+        image: "Graphic3.png",
+        price: 307.49,
+        brand: "Intel",
+        vram: "10GB"
+    }
+
+];
+
+
+function displayProducts() {
+
+    const first = document.getElementById("product1").value;
+    const second = document.getElementById("product2").value;
+
+    const card1 = document.getElementById("card1");
+    const card2 = document.getElementById("card2");
+
+
+    function showCard(card, index) {
+
+        if (index === "") {
+            card.innerHTML = "<p>Select a graphics card above</p>";
+            return;
+        }
+
+        const product = products[index];
+
+        card.innerHTML = `
+            <img src="${product.image}" alt="Graphics card">
+
+            <h2>${product.name}</h2>
+
+            <p><strong>Price:</strong> $${product.price}</p>
+
+            <p><strong>Brand:</strong> ${product.brand}</p>
+
+            <p><strong>VRAM:</strong> ${product.vram}</p>
+        `;
+    }
+
+    showCard(card1, first);
+    showCard(card2, second);
+
+}
+    </script>
+
+</body>
+</html>

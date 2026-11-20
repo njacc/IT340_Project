@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="webTop">
+        <div><img src="GSlogo.png" width="20%"></div>
+        <div>
+            <h2>Graphic Scouts</h2>
+        </div>
+        <div>
+            <h1>Verify account</h1>
+        </div>
+        <div><a href="homepage.html">Home</a></div>
+    </div>
+
+    <section class="products">
+        <div class="info-box">
+            <p id="msg">Verifying…</p>
+            <p><a href="login.html">Go to login</a></p>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+    <script>
+        const token = new URLSearchParams(location.search).get('token');
+        api('/auth/verify/' + encodeURIComponent(token || ''))
+            .then(() => document.getElementById('msg').textContent = 'Account verified. You can log in now.')
+            .catch(e => document.getElementById('msg').textContent = e.message);
+    </script>
+</body>
+
+</html>

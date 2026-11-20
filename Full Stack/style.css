@@ -235,3 +235,18 @@ select {
     border-bottom: 1px solid white;
     border: black;
 }
+#msg {
+    margin-top: 12px;
+    font-weight: bold;
+}
+#msg.error { color: #b00020; }
+#msg.ok { color: #0a7d32; }
+#sessionSlot {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+#grid .product img {
+    width: 100%;
+    height: auto;
+}

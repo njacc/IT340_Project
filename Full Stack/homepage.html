@@ -3,6 +3,8 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -21,7 +23,7 @@
                 <input type="text" id="searchbar" placeholder="Search">
             </form>
         </div>
-
+        <!--Filter portion of the code-->
         <div class="filter-dropdown">
 
             <button class="filter-button" onclick="toggleFilters()">Filter Graphic cards</button>
@@ -64,12 +66,20 @@
             </div>
         </div>
 
+        <!--Links to other tabs-->
+
         <div><a href="compare.html">Compare</a></div>
 
         <div><a href="login.html">Login</a></div>
 
         <div><a href="register.html">Register</a></div>
+
+        <div>
+            <a href="cart.html"><img src="CartIcon.png" width="20%"></a>
+        </div>
+
     </div>
+    <!--Section to display cards for products-->
 
     <div class="product-container">
 
@@ -77,27 +87,33 @@
             <img src="Graphic1.png" alt="Graphics card">
             <h3>NVIDIA GeForce RTX 3050 VENTUS 2X 6G OC 6GB GDDR6 PCI Express Gen 4</h3>
             <p>$279.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addtocart('NVIDIA GeForce RTX 3050 VENTUS 2X 6G OC', 279.99)">
+                Add to Cart
+            </button>
         </div>
 
         <div class="product" data-price="459.99" data-brand="AMD" data-vram="8">
             <img src="Graphic2.png">
             <h3>AMD GIGABYTE - Radeon RX 9060 XT GAMING OC 8GB GDDR6 PCI Express 5.0</h3>
             <p>$459.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addtocart('AMD GIGABYTE Radeon RX 9060 XT GAMING OC', 459.99)">
+                Add to Cart
+            </button>
         </div>
 
         <div class="product" data-price="307.49" data-brand="Intel" data-vram="10">
             <img src="Graphic3.png">
             <h3>Intel Arc B570 Challenger 10 GB DGGR6 OC PCIe 4.0</h3>
             <p>$307.49</p>
-            <button>Add to Cart</button>
+            <button onclick="addtocart('Intel Arc B570 Challenger 10GB', 307.49)">
+                Add to Cart
+            </button>
         </div>
 
     </div>
 
     <p id="noResults" style="display: none; text-align: center;">
-        No graphics cards found!
+        No graphics cards found
     </p>
 
     <script>
@@ -105,7 +121,7 @@
             document.getElementById("filterContent")
                 .classList.toggle("show");
         }
-
+        /*Script to make the filters work*/
         function applyFilters() {
 
             const price = document.getElementById("priceFilter").value;
@@ -155,7 +171,7 @@
             });
 
         }
-
+        /*Script to let the search bar lookup existing products*/
         function searchProducts(event) {
 
             event.preventDefault();
@@ -181,6 +197,30 @@
                 foundProducts === 0 ? "block" : "none";
 
         }
+
+        /*Script to let the cart work*/
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function addtocart(name,price) {
+            cart.push({
+                name: name,
+                price: price
+            });
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+            alert("Product added to cart");
+        }
+
+        function updateCart(){
+            let count = cart.length;
+            let cartCount = document.getElementById("cartCount");
+            if (cartCount) {
+                cartCount.innerText = count;
+            }
+        }
+
+        updateCart();
 
     </script>
 </body>

@@ -50,6 +50,11 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px black;
+    transition: transform 0.3s ease;
+}
+
+.product:hover{
+    transform: scale(1.1);
 }
 
 .product img {
@@ -234,4 +239,42 @@ select {
     padding: 8px;
     border-bottom: 1px solid white;
     border: black;
+}
+
+/*Cart stylization*/
+
+#cartItems {
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.cart-item {
+    background-color: white;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover{
+    transform: scale(1.1);
+}
+
+.cart-item button {
+    background-color: royalblue;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#totalPrice {
+    text-align: center;
+    margin: 30px;
 }

@@ -1,9 +1,23 @@
+/* New: Smoother scrolling for accessibility and aesthetics */
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: white;
     text-align: center;
+}
+
+/* New: Smooth transtions */
+a,
+button,
+input,
+select {
+    transition: background-color 0.25s ease, color 0.25s ease,
+                border-color 0.25s ease, box-shadow 0.25s ease,
+                opacity 0.25s ease;
 }
 
 /* Website top*/
@@ -57,6 +71,8 @@ body {
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
+    /* New: smooth zoom animation when hovering */
+    transition: transform 0.3s ease;
 }
 
 .product h3 {
@@ -110,8 +126,15 @@ body {
     cursor: pointer;
 }
 
+/* New: the dropdown now fades and slides in instead of popping open.
+   The JavaScript is unchanged: it still just toggles the "show" class. */
 .filter-content {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease,
+                visibility 0.25s ease;
     position: absolute;
     background-color: royalblue;
     min-width: 250px;
@@ -124,7 +147,10 @@ body {
 }
 
 .filter-content.show {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .filter-dropdown {
@@ -227,6 +253,8 @@ select {
     width: 80%;
     height: 200px;
     object-fit: contain;
+    /* New: smooth zoom animation */
+    transition: transform 0.3s ease;
 }
 
 .compare-card p {
@@ -249,4 +277,33 @@ select {
 #grid .product img {
     width: 100%;
     height: auto;
+}
+
+
+/* New: Hover zoom -  images grow a tad when the mouse is over them.
+   To make it bigger or smaller, change the scale() number
+   (1.00 = no growth, 1.08 = 8% bigger, 1.15 = 15% bigger).*/
+
+.product img:hover,
+.compare-card img:hover {
+    transform: scale(1.08);
+}
+
+
+/* New: respect people who turn off animations in their settings */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+
+    .product img:hover,
+    .compare-card img:hover {
+        transform: none;
+    }
 }

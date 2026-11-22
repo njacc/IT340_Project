@@ -1,10 +1,6 @@
 'use strict';
 
-/*
- * All password hashing lives in this one file.
- * bcrypt adds a random salt to every hash and is deliberately slow, which
- * makes stolen hashes very hard to crack.
- */
+/* hashing with the use of bcrypt*/
 
 const bcrypt = require('bcrypt');
 

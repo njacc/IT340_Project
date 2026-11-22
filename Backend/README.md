@@ -6,6 +6,7 @@ Handles accounts (register, login, logout, email verification) and product searc
 - Node.js 
 - MongoDB
 - Packages: `express`, `mongoose`, `bcrypt` (install with `npm install express mongoose bcrypt`)
+- (if it fails use `sudo apt install npm` then try again)
 - A `.env` file (copy `.env.example`)
 
 ## Settings (`.env`)

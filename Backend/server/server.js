@@ -1,8 +1,6 @@
 'use strict';
 
 /*
- * Graphic Scouts API (Express + MongoDB)
- *
  * Runs on the back-end VM. Apache on the front-end VM serves the HTML/CSS/JS
  * and forwards every /api/... request here, so the browser only ever talks to
  * one origin and this server never has to be exposed to the internet.
@@ -48,8 +46,6 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
-// Optional: also serve the front-end files from this server.
-// Handy for quick testing on one machine; Apache does this in the VM setup.
 if (process.env.STATIC_DIR) {
   app.use(express.static(path.resolve(process.env.STATIC_DIR)));
 }

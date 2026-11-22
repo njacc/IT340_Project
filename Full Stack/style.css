@@ -126,8 +126,7 @@ select {
     cursor: pointer;
 }
 
-/* New: the dropdown now fades and slides in instead of popping open.
-   The JavaScript is unchanged: it still just toggles the "show" class. */
+/* New: the dropdown now fades and slides in instead of popping open. */
 .filter-content {
     opacity: 0;
     visibility: hidden;

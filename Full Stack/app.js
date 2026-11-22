@@ -121,36 +121,14 @@ function buildQuery() {
 }
 
 function renderProducts(items) {
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
-
-    items.forEach(p => {
-        const product = document.createElement('div');
-        product.className = 'product';
-
-        const img = document.createElement('img');
-        img.src = p.image;
-        img.alt = 'Graphics card';
-
-        const name = document.createElement('h3');
-        name.textContent = p.name;
-
-        const price = document.createElement('p');
-        price.textContent = '$' + Number(p.price).toFixed(2);
-
-        const button = document.createElement('button');
-        button.textContent = 'Add to Cart';
-
-        button.addEventListener('click', () => {
-            addtocart(p.name, Number(p.price));
-        });
-
-        product.append(img, name, price, button);
-        grid.appendChild(product);
-    });
-
-    document.getElementById('noResults').style.display =
-        items.length ? 'none' : 'block';
+  document.getElementById('grid').innerHTML = items.map(p => `
+    <div class="product" data-price="${p.price}" data-brand="${esc(p.brand)}" data-vram="${p.vram}">
+      <img src="${esc(p.image)}" alt="Graphics card">
+      <h3>${esc(p.name)}</h3>
+      <p>$${Number(p.price).toFixed(2)}</p>
+      <button>Add to Cart</button>
+    </div>`).join('');
+  document.getElementById('noResults').style.display = items.length ? 'none' : 'block';
 }
 
 async function loadProducts() {

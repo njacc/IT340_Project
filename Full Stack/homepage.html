@@ -3,16 +3,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="webTop">
         <div><a href="homepage.html">
-            <img src="GSlogo.png" width="20%">
-        </a></div>
+                <img src="GSlogo.png" width="20%">
+            </a></div>
 
         <div>
             <h2>Graphic Scouts</h2>
@@ -58,6 +59,12 @@
                     <option value="10GB">10GB</option>
                 </select>
 
+                <label>Sort</label>
+                <select id="sortFilter">
+                    <option value="price">Price: low to high</option>
+                    <option value="name">Name: A to Z</option>
+                </select>
+
 
                 <button onclick="applyFilters()">Apply Filters</button>
 
@@ -65,6 +72,8 @@
 
             </div>
         </div>
+
+        <div id="sessionSlot"></div>
 
         <!--Links to other tabs-->
 
@@ -81,7 +90,7 @@
     </div>
     <!--Section to display cards for products-->
 
-    <div class="product-container">
+    <div class="product-container" id="grid">
 
         <div class="product" data-price="279.99" data-brand="NVIDIA" data-vram="6">
             <img src="Graphic1.png" alt="Graphics card">
@@ -116,113 +125,7 @@
         No graphics cards found
     </p>
 
-    <script>
-        function toggleFilters() {
-            document.getElementById("filterContent")
-                .classList.toggle("show");
-        }
-        /*Script to make the filters work*/
-        function applyFilters() {
-
-            const price = document.getElementById("priceFilter").value;
-            const brand = document.getElementById("brandFilter").value;
-            const vram = document.getElementById("vramFilter").value;
-
-            const products = document.querySelectorAll(".product");
-
-            products.forEach(product => {
-
-                const productPrice = Number(product.dataset.price);
-                const productBrand = product.dataset.brand;
-                const productVram = product.dataset.vram;
-
-                let show = true;
-
-                if (price !== "all") {
-                    const [min, max] = price.split("-").map(Number);
-
-                    if (productPrice < min || productPrice > max) {
-                        show = false;
-                    }
-                }
-
-                if (brand !== "all" && productBrand !== brand) {
-                    show = false;
-                }
-
-                if (vram !== "all" && productVram !== vram.replace("GB", "")) {
-                    show = false;
-                }
-
-                product.style.display = show ? "block" : "none";
-
-            });
-
-        }
-
-        function resetFilters() {
-
-            document.getElementById("priceFilter").value = "all";
-            document.getElementById("brandFilter").value = "all";
-            document.getElementById("vramFilter").value = "all";
-
-            document.querySelectorAll(".product").forEach(product => {
-                product.style.display = "block";
-            });
-
-        }
-        /*Script to let the search bar lookup existing products*/
-        function searchProducts(event) {
-
-            event.preventDefault();
-
-            let searchbar = document.getElementById("searchbar")
-                .value.toLowerCase().trim();
-
-            let products = document.querySelectorAll(".product");
-
-            let foundProducts = 0;
-
-            products.forEach(function (product) {
-                let productName = product.innerText.toLowerCase();
-                if (productName.includes(searchbar)) {
-                    product.style.display = "block";
-                    foundProducts++;
-                } else {
-                    product.style.display = "none";
-                }
-            });
-
-            document.getElementById("noResults").style.display =
-                foundProducts === 0 ? "block" : "none";
-
-        }
-
-        /*Script to let the cart work*/
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        function addtocart(name,price) {
-            cart.push({
-                name: name,
-                price: price
-            });
-
-            localStorage.setItem("cart", JSON.stringify(cart));
-            updateCart();
-            alert("Product added to cart");
-        }
-
-        function updateCart(){
-            let count = cart.length;
-            let cartCount = document.getElementById("cartCount");
-            if (cartCount) {
-                cartCount.innerText = count;
-            }
-        }
-
-        updateCart();
-
-    </script>
+    <script src="app.js"></script>
 </body>
 
 </html>

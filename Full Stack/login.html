@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts - Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -26,38 +27,23 @@
     </div>
 
     <section class="products">
-        <form class="info-box" onsubmit="return validateLogin()">
+        <form class="info-box" id="loginForm">
             <label>Enter Email:</label>
-            <input type="email" id="email1" name="email" required
-            pattern="/^[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}$/"
+            <input type="email" id="email1" name="email" required 
+            pattern="[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}"
             ><br><br>
 
             <label>Enter Password: </label>
             <input type="password" id="password1" name="password" required
-            pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$/"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$"
             ><br><br>
 
             <button type="submit">Login</button>
+            <p id="msg"></p>
         </form>
     </section>
 
-    <script>
-        function validateLogin() {
-
-            let email = document.getElementById("email1").value;
-            let password = document.getElementById("password1").value;
-
-            if (email == "" || password == "") {
-                alert("Please enter your email and password.");
-                return false;
-            }
-
-            alert("Login form submitted");
-
-            return false;
-        }
-
-    </script>
+    <script src="app.js"></script>
 
 </body>
 

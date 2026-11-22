@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts - Compare</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -68,7 +69,6 @@
     </div>
 
     <script>
-
         const products = [
 
             {
@@ -99,16 +99,12 @@
 
 
         function displayProducts() {
-
             const first = document.getElementById("product1").value;
             const second = document.getElementById("product2").value;
-
             const card1 = document.getElementById("card1");
             const card2 = document.getElementById("card2");
 
-
             function showCard(card, index) {
-
                 if (index === "") {
                     card.innerHTML = "<p>Select a graphics card above</p>";
                     return;
@@ -128,10 +124,8 @@
             <p><strong>VRAM:</strong> ${product.vram}</p>
         `;
             }
-
             showCard(card1, first);
             showCard(card2, second);
-
         }
     </script>
 

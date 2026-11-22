@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts - Register</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -26,52 +27,32 @@
     </div>
 
     <section class="products">
-        <form class="info-box" onsubmit="return validateRegister()">
+        <form class="info-box" id="registerForm">
             <label>Enter Email:</label>
             <input type="email" id="email1" name="email" required
-            pattern="/^[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}$/"
+            pattern="[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}"
             ><br><br>
 
             <label>Confirm Email:</label>
             <input type="email" id="email2" name="confEmail" required
-            pattern="/^[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}$/"
+            pattern="[a-zA-Z0-9]+@(gmail|yahoo|outlook|hotmail|aol)\.[A-Za-z]{1,3}"
             ><br><br>
 
             <label>Enter Password: </label>
             <input type="password" id="password1" name="password" required
-            pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$/"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$"
             ><br><br>
 
             <label>Confirm Password: </label>
             <input type="password" id="password2" name="confPassword" required
-            pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$/"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$"
             ><br><br>
 
             <button type="submit">Create Account</button>
+            <p id="msg"></p>
         </form>
 
-        <script>
-            function validateRegister() {
-                let email1 = document.getElementById("email1").value;
-                let email2 = document.getElementById("email2").value;
-                let password1 = document.getElementById("password1").value;
-                let password2 = document.getElementById("password2").value;
-
-                if (email1 !== email2) {
-                    alert("Email addresses dont match");
-                    return false;
-                }
-
-                if (password1 !== password2) {
-                    alert("Passwords dont match");
-                    return false;
-                }
-
-                alert("Registration Complete");
-
-                return false;
-            }
-        </script>
+        <script src="app.js"></script>
 </body>
 
 </html>

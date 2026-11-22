@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Scouts - Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="webTop">
+        <div><a href="homepage.html">
+                <img src="GSlogo.png" width="20%">
+            </a></div>
+        <div>
+            <h2>Graphic Scouts</h2>
+        </div>
+        <div>
+            <h1>Your Cart</h1>
+        </div>
+        <div><a href="compare.html">Compare</a></div>
+        <div><a href="login.html">Login</a></div>
+        <div><a href="register.html">Register</a></div>
+    </div>
+
+    <div id="cartItems"></div>
+    <h2 id="totalPrice">Total: $0.00</h2>
+
+    <button onclick="clearCart()">Empty Cart</button>
+
+    <script>
+        let cart = [];
+
+        try {
+            cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (!Array.isArray(cart)) {
+                cart = [];
+            }
+        } catch (error) {
+            cart = [];
+        }
+
+        function displayCart() {
+            const cartItems = document.getElementById("cartItems");
+            let total = 0;
+            cartItems.innerHTML = "";
+
+            if (cart.length === 0) {
+                const emptyMessage = document.createElement("p");
+                emptyMessage.textContent = "Your cart is empty.";
+                cartItems.appendChild(emptyMessage);
+            }
+
+            cart.forEach((product, index) => {
+                const item = document.createElement("div");
+                item.className = "cart-item";
+                const name = document.createElement("h3");
+                name.textContent = product.name;
+
+
+                const price = document.createElement("p");
+                const productPrice = Number(product.price);
+                if (!Number.isFinite(productPrice) || productPrice < 0) {
+                    return;
+                }
+
+                price.textContent = "$" + productPrice.toFixed(2);
+                total += productPrice;
+
+                const removeButton = document.createElement("button");
+                removeButton.textContent = "Remove";
+                removeButton.addEventListener("click", function () {
+                    removeItem(index);
+
+                });
+
+                item.appendChild(name);
+                item.appendChild(price);
+                item.appendChild(removeButton);
+                cartItems.appendChild(item);
+
+            });
+
+            document.getElementById("totalPrice").textContent =
+                "Total: $" + total.toFixed(2);
+
+        }
+
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+
+        function clearCart() {
+            cart = [];
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+
+        window.addEventListener("storage", function (event) {
+            if (event.key === "cart") {
+                try {
+                    cart = JSON.parse(event.newValue) || [];
+                    if (!Array.isArray(cart)) {
+                        cart = [];
+                    }
+                } catch (error) {
+                    cart = [];
+                }
+                displayCart();
+            }
+        });
+
+        displayCart();
+    </script>
+
+</body>
+
+</html>

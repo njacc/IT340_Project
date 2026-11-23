@@ -17,7 +17,7 @@ async function api(path, opts = {}) {
 const esc = s => String(s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-/* ---------- session banner ---------- */
+/*  session banner  */
 async function initSession() {
   const slot = document.getElementById('sessionSlot');
   if (!slot) return;
@@ -34,7 +34,7 @@ async function initSession() {
   }
 }
 
-/* ---------- login ---------- */
+/*  login  */
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', async e => {
@@ -54,7 +54,7 @@ if (loginForm) {
   });
 }
 
-/* ---------- register ---------- */
+/*  register  */
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
   registerForm.addEventListener('submit', async e => {
@@ -79,7 +79,7 @@ if (registerForm) {
   });
 }
 
-/* ---------- homepage ---------- */
+/*  homepage  */
 function toggleFilters() {
   document.getElementById('filterContent').classList.toggle('show');
 }
@@ -122,11 +122,11 @@ function buildQuery() {
 
 function renderProducts(items) {
   document.getElementById('grid').innerHTML = items.map(p => `
-    <div class="product" data-price="${p.price}" data-brand="${esc(p.brand)}" data-vram="${p.vram}">
+    <div class="product" data-id="${esc(p._id || p.name)}" data-name="${esc(p.name)}" data-price="${p.price}" data-brand="${esc(p.brand)}" data-vram="${p.vram}">
       <img src="${esc(p.image)}" alt="Graphics card">
       <h3>${esc(p.name)}</h3>
       <p>$${Number(p.price).toFixed(2)}</p>
-      <button>Add to Cart</button>
+      <button class="add-btn">Add to Cart</button>
     </div>`).join('');
   document.getElementById('noResults').style.display = items.length ? 'none' : 'block';
 }
@@ -141,8 +141,62 @@ async function loadProducts() {
   }
 }
 
+/*  cart (NEW) 
+   The cart is saved in this browser only. It is not sent to
+   the server or the database yet; a real per-user cart is a later milestone. */
+const CART_KEY = 'gs_cart';
+
+function loadCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveCart(cart) {
+  try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch { /* storage blocked */ }
+}
+
+function updateCartBadge() {
+  let badge = document.getElementById('cartBadge');
+  if (!badge) {
+    badge = document.createElement('div');
+    badge.id = 'cartBadge';
+    document.body.appendChild(badge);
+  }
+  const count = loadCart().reduce((total, item) => total + item.qty, 0);
+  badge.textContent = 'Cart (' + count + ')';
+}
+
+function addToCart(card) {
+  const cart = loadCart();
+  const id = card.dataset.id;
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id, name: card.dataset.name, price: Number(card.dataset.price), qty: 1 });
+  }
+
+  saveCart(cart);
+  updateCartBadge();
+}
+
 if (document.getElementById('grid')) {
   document.getElementById('filterContent').addEventListener('click', e => e.stopPropagation());
+
+  // One listener on the grid covers every button, even after the cards are re-drawn.
+  document.getElementById('grid').addEventListener('click', e => {
+    const btn = e.target.closest('.add-btn');
+    if (!btn) return;
+
+    addToCart(btn.closest('.product'));
+
+    btn.textContent = 'Added!';
+    btn.disabled = true;
+    setTimeout(() => { btn.textContent = 'Add to Cart'; btn.disabled = false; }, 1000);
+  });
+
+  updateCartBadge();
   loadProducts();
 }
 

@@ -1,8 +1,23 @@
+/* New: Smoother scrolling */
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: white;
+    text-align: center;
+}
+
+/* New: smooth transitions */
+a,
+button,
+input,
+select {
+    transition: background-color 0.25s ease, color 0.25s ease,
+                border-color 0.25s ease, box-shadow 0.25s ease,
+                opacity 0.25s ease;
 }
 
 /* Website top*/
@@ -26,7 +41,7 @@ body {
 }
 
 
-/* Products style*/
+/* Products stuff*/
 .products {
     text-align: center;
     padding: 40px 20px;
@@ -56,6 +71,8 @@ body {
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
+    /* New: smooth zoom animation for the hover effect */
+    transition: transform 0.3s ease;
 }
 
 .product h3 {
@@ -69,7 +86,7 @@ body {
 }
 
 .product button {
-    background-color: black;
+    background-color: royalblue;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -79,7 +96,7 @@ body {
 
 
 
-/* Search bar and Filter*/
+/* Search bar stuff*/
 .search-filter {
     display: flex;
     align-items: center;
@@ -102,20 +119,26 @@ body {
 /* Filter Stuff*/
 .filter-button {
     padding: 10px 15px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
+/* New: the dropdown fades and slides in instead of popping open. */
 .filter-content {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease,
+                visibility 0.25s ease;
     position: absolute;
-    background-color: white;
+    background-color: royalblue;
     min-width: 250px;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px black;
     border-radius: 8px;
     z-index: 100;
     right: 0;
@@ -123,7 +146,10 @@ body {
 }
 
 .filter-content.show {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .filter-dropdown {
@@ -146,8 +172,8 @@ body {
     width: 100%;
     padding: 10px;
     margin-top: 12px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -160,7 +186,7 @@ body {
     margin: 30px auto;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 3px 10px black;
+    box-shadow: 0 2px 8px black;
     text-align: left;
 }
 
@@ -181,9 +207,116 @@ body {
 .info-box button {
     width: 100%;
     padding: 12px;
-    background-color: black;
+    background-color: royalblue;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Comare stuff*/
+
+.dropdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin: 30px;
+}
+
+select {
+    padding: 12px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 15px;
+}
+
+.compare-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px auto;
+    max-width: 1000px;
+}
+
+.compare-card {
+    background-color: white;
+    width: 40%;
+    min-height: 350px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px black;
+}
+
+.compare-card img {
+    width: 80%;
+    height: 200px;
+    object-fit: contain;
+    /* New: smooth zoom animation for the hover effect */
+    transition: transform 0.3s ease;
+}
+
+.compare-card p {
+    font-size: 18px;
+    padding: 8px;
+    border-bottom: 1px solid white;
+    border: black;
+}
+#msg {
+    margin-top: 12px;
+    font-weight: bold;
+}
+#msg.error { color: #b00020; }
+#msg.ok { color: #0a7d32; }
+#sessionSlot {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+#grid .product img {
+    width: 100%;
+    height: auto;
+}
+
+.product img:hover,
+.compare-card img:hover {
+    transform: scale(1.08);
+}
+
+
+/* respect people who turn off animations in their OS settings */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+
+    .product img:hover,
+    .compare-card img:hover {
+        transform: none;
+    }
+}
+
+
+#cartBadge {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: royalblue;
+    color: white;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 25px;
+    box-shadow: 0 2px 8px black;
+    z-index: 200;
+}
+
+.product button:disabled {
+    background-color: #0a7d32;
+    cursor: default;
 }

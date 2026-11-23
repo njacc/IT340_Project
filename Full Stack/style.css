@@ -1,4 +1,4 @@
-/* New: Smoother scrolling for accessibility and aesthetics */
+/* New: Smoother scrolling */
 html {
     scroll-behavior: smooth;
 }
@@ -10,7 +10,7 @@ body {
     text-align: center;
 }
 
-/* New: Smooth transtions */
+/* New: smooth transitions */
 a,
 button,
 input,
@@ -71,7 +71,7 @@ select {
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
-    /* New: smooth zoom animation when hovering */
+    /* New: smooth zoom animation for the hover effect */
     transition: transform 0.3s ease;
 }
 
@@ -126,7 +126,7 @@ select {
     cursor: pointer;
 }
 
-/* New: the dropdown now fades and slides in instead of popping open. */
+/* New: the dropdown fades and slides in instead of popping open. */
 .filter-content {
     opacity: 0;
     visibility: hidden;
@@ -252,7 +252,7 @@ select {
     width: 80%;
     height: 200px;
     object-fit: contain;
-    /* New: smooth zoom animation */
+    /* New: smooth zoom animation for the hover effect */
     transition: transform 0.3s ease;
 }
 
@@ -278,18 +278,13 @@ select {
     height: auto;
 }
 
-
-/* New: Hover zoom -  images grow a tad when the mouse is over them.
-   To make it bigger or smaller, change the scale() number
-   (1.00 = no growth, 1.08 = 8% bigger, 1.15 = 15% bigger).*/
-
 .product img:hover,
 .compare-card img:hover {
     transform: scale(1.08);
 }
 
 
-/* New: respect people who turn off animations in their settings */
+/* respect people who turn off animations in their OS settings */
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -305,4 +300,23 @@ select {
     .compare-card img:hover {
         transform: none;
     }
+}
+
+
+#cartBadge {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: royalblue;
+    color: white;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 25px;
+    box-shadow: 0 2px 8px black;
+    z-index: 200;
+}
+
+.product button:disabled {
+    background-color: #0a7d32;
+    cursor: default;
 }

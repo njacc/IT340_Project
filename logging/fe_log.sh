@@ -3,7 +3,7 @@ DAY=$(date +%F)
 OUT=/var/log/gpuscout/fe-$DAY.log
 
 mkdir -p /var/log/gpuscout
-echo "===== GPUscout FE log - $DAY =====" > "$OUT"
+echo "===== GPUscout fe_log - $DAY =====" > "$OUT"
 
 echo "----- Apache access -----" >> "$OUT"
 grep "$(date +%d/%b/%Y)" /var/log/apache2/access.log >> "$OUT"

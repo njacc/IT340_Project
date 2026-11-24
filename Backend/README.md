@@ -12,7 +12,7 @@ Handles accounts (register, login, logout, email verification) and product searc
 ## Settings (`.env`)
 - `MONGO_URI` - where MongoDB is
 - `HOST` - IP the API listens on (the VM's VLAN IP)
-- `PORT` - 3000
+- `PORT` - 27017
 - `COOKIE_SECURE` - `true` only with HTTPS
 - `REQUIRE_VERIFICATION` - `true` to require a verified email before login
 

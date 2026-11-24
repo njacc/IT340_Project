@@ -9,7 +9,8 @@ be_log.sh -> API output and backend api running as a system service
 
 Installation: Open each script for it's respective VM, install the script, test it, and the schedule it 
 
-FE VM: 
+- FE VM: 
+
 1: sudo cp fe_log.sh /usr/local/bin/fe_log.sh
 
 2: sudo chmod 750 /usr/local/bin/fe_log.sh
@@ -22,7 +23,8 @@ FE VM:
 
 6: */5 * * * * /usr/local/bin/fe_log.sh
 
-DB VM: 
+- DB VM: 
+
 1: sudo cp db_log.sh /usr/local/bin/db_log.sh
 
 2: sudo chmod 750 /usr/local/bin/db_log.sh
@@ -35,7 +37,8 @@ DB VM:
 
 */5 * * * * /usr/local/bin/db_log.sh
 
-BE VM: 
+- BE VM:
+
 1: sudo cp be_log.sh /usr/local/bin/be_log.sh
 
 2: sudo chmod 750 /usr/local/bin/be_log.sh

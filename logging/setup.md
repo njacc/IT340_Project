@@ -35,7 +35,7 @@ Installation: Open each script for it's respective VM, install the script, test 
 
 5: head /var/log/gpuscout/fe-$(date +%F).log
 
-*/5 * * * * /usr/local/bin/db_log.sh
+6: */5 * * * * /usr/local/bin/db_log.sh
 
 - BE VM:
 

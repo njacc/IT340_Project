@@ -8,6 +8,6 @@ fe_log.sh: script for frontend logging
 
 be_log.sh: script for backend logging
 
-Set up.md: (implimentation steps + cron lines + commands)
+setup.md: implimentation steps + cron lines + commands
 
 Note: All logs will be later funneled into a crontab that displays all logs in a logging VM
